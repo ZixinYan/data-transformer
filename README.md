@@ -31,8 +31,8 @@ dts:
 - 请求示例（DTSRequest）：
 ```
 {
-  "ruleId": "aggregation-task",
-  "payload": "{\"scheme_rate\":0.01,\"interchange_rate\":0.02,\"markup_rate\":0.03,\"scheme_fee\":10,\"interchange_fee\":20,\"markup_fee\":30,\"amount_usd\":1000,\"amount\":1200}"
+  "ruleId": "${your-task-name}",
+  "payload": "{\"\“}"
 }
 ```
 
