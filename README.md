@@ -26,38 +26,7 @@ dts:
 ```
 
 ### 流程说明（Sequence Diagram）
-```plantuml
-@startuml
-actor Client
-participant Controller as C
-participant Service as S
-participant TaskRegistry as TR
-participant OperatorFactory as OF
-participant Pipeline as PL
-participant DTSExecutor as EX
-participant Collectors/Processors/Publisher as OPS
-
-Client -> C : POST /api/dts/execute (DTSRequest)
-C -> S : execute(request)
-S -> TR : get(ruleId)
-TR --> S : TaskDefinition(collect, flows)
-S -> OF : createCollector(type, config)
-OF --> S : Collector
-S -> OF : createClean/Process/Calculate/... per Flow
-OF --> S : List<Processor>
-S -> OF : createPublisher(type, config) (可选)
-OF --> S : Publisher (或默认 JSON )
-S -> PL : new DTSPipeline or DTSPipelineBatch
-S -> EX : submit( () -> PL.execute(request) )
-EX -> PL : execute
-PL -> OPS : collector.collect(...)
-PL -> OPS : processors.process(...) *
-PL -> OPS : publisher.publish(...)
-PL --> EX : result
-EX --> S : result
-S --> C : DTSResponse(result)
-@enduml
-```
+![流程图](//www.plantuml.com/plantuml/png/ZLFDRYCj4Bpp52WdBDdZ-wTFKQI9BQraoIEF3xaIfksWnS024s_UVXiFGs2zF-iJGrLNTNNZ9n-u2-D54Iw2SRHL4dGW5Y-ba9RhG5kZWpDAWQFSqxR2Ud3lKa04-WeuSl_r06VfW_k8wF5GmNiBZgFVDhfEZFssOdJIWfBw9jtjAkZvs6--WnYnCgARbmfzQ6ElKTQlEsS4U7yxZgzA-ZTm3pUphYTaoafNZxIb_z5ktn_fcbkv7e9Vmyq0A4Ep0tmRmOT5795yvtZROd6iwx4kCPcxOw55ZopCZhGp1EP61L-6We5JGN2LbEBCdk4ajGpIQ2Qc74jwKkRg5sI0eYv9xxTO9npWPOxDmeU59HL6d-IvCCC18tqsotJKBIZtkfypPAcHtoZkf0__P_RZNtNJGlwntqp_fMwtGug6QtmRyyjXOewuf3Q7mFEiL7XrkoIqUK4XFxvUP60s2SMz55nyRmHfoJNlVq7mCqRiOhlPkqadrZHD8O8i4fchMSRnAnruu5Ky915bZALRuoZUltq68HH_fMD6cdIQ72Ej4emNbNEYmp3vH_od7a0Ff4gNHzYa4tFWHnN-530nSRWYsjtbZFhp0YQrae8BGcH-3FSuBcNoQX6-_MUzDTf3RgpWzkL7IvumtdXHFm00)
 
 - 请求示例（DTSRequest）：
 ```
