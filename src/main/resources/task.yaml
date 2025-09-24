@@ -1,0 +1,40 @@
+# 测试用 task.yaml（可直接放到 dts.taskPath 指定的位置）
+# 说明：
+# - 为了便于本地快速联调，示例1不依赖外部ES/DB，仅从请求的 payload(JSON 字符串)中抽取字段并计算，再以 JSON 形式返回
+# - 示例2展示 collect 的配置形状（es/db），便于后续接入真实数据源时替换
+
+# ========== 示例1：本地最小可跑通 ==========
+- type: trigger
+  name: aggregation-task     # ruleId = "aggregation-task"
+  # collect 省略：服务层会回退为 {payload: <request.payload>, ruleId: <request.ruleId>}
+  flows:
+    - clean:
+        - type: extract_json
+          config:
+            # 从请求 payload(JSON 字符串) 中提取以下字段，合并到上下文 Map
+            key_name:
+              -
+              -
+              -
+              -
+      calculate:
+        - type: add
+          config:
+            fields_name:
+              -
+              -
+              -
+            result_name:
+        - type: add
+          config:
+            fields_name:
+              -
+              -
+              -
+            result_name:
+  publish:
+    - type: es
+      config:
+        index: card_fee_aggregation
+        id_field: id
+        create_index_if_missing: true
