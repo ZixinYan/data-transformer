@@ -1,0 +1,28 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: data-transformer
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  cache:
+    type: simple
+  data:
+    redis:
+      host: localhost
+      port: 6379
+    elasticsearch:
+      repositories:
+        enabled: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo?useSSL=false&characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: root
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+dts:
+  taskPath: ./task.yaml
